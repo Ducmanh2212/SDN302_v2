@@ -3,7 +3,7 @@ import List from "./List";
 import { DragDropContext } from "react-beautiful-dnd";
 import { Button, Form, Container, Row, Col } from "react-bootstrap";
 import { ToastContainer, toast } from "react-toastify"; // Import Toast
-import 'react-toastify/dist/ReactToastify.css'; // Import Toast styles
+import "react-toastify/dist/ReactToastify.css"; // Import Toast styles
 import "./styles/Board.css";
 
 const Board = () => {
@@ -69,7 +69,7 @@ const Board = () => {
         )
       );
     }
-    toast.success("Card moved successfully!"); 
+    toast.success("Card moved successfully!");
   };
 
   const addNewList = () => {
@@ -119,7 +119,7 @@ const Board = () => {
                 </div>
               ) : (
                 <Button
-                  variant="outline-primary"
+                  variant="outline-light mt-3"
                   onClick={() => setIsAddingList(true)}
                 >
                   + Add another list

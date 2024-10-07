@@ -126,7 +126,7 @@ const ProjectsList = () => {
                     </div>
                   ) : (
                     <Button
-                      variant="outline-primary"
+                      variant="outline-light"
                       onClick={() => setIsAddingProject(true)}
                     >
                       + Add New Project
