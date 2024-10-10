@@ -25,7 +25,7 @@ const List = ({ list, setLists, lists }) => {
     setLists(lists.map((l) => (l.id === list.id ? updatedList : l)));
     setNewCardTitle("");
     setIsAddingCard(false);
-    
+
     toast.success(`Card "${newCardTitle}" added successfully!`); // Show success toast when card is added
   };
 

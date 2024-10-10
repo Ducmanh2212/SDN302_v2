@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import List from "./List";
 import { DragDropContext } from "react-beautiful-dnd";
-import { Button, Form, Container, Row, Col } from "react-bootstrap";
+import { Button, Form, Container, Row, Col, InputGroup } from "react-bootstrap";
 import { ToastContainer, toast } from "react-toastify"; // Import Toast
 import "react-toastify/dist/ReactToastify.css"; // Import Toast styles
 import "./styles/Board.css";
@@ -15,12 +15,12 @@ const Board = () => {
           {
             id: "1",
             title: "To Do",
-            cards: [{ id: "1", title: "Task 1", description: "" }],
+            cards: [{ id: "1", title: "Task 1", description: "", members: [] }],
           },
           {
             id: "2",
             title: "In Progress",
-            cards: [{ id: "2", title: "Task 2", description: "" }],
+            cards: [{ id: "2", title: "Task 2", description: "", members: [] }],
           },
         ];
   };
@@ -28,6 +28,8 @@ const Board = () => {
   const [lists, setLists] = useState(getInitialLists());
   const [isAddingList, setIsAddingList] = useState(false);
   const [newListTitle, setNewListTitle] = useState("");
+  const [newMemberName, setNewMemberName] = useState(""); // New state for member name
+  const [showMemberInput, setShowMemberInput] = useState(false); // State to manage input visibility
 
   useEffect(() => {
     localStorage.setItem("boardLists", JSON.stringify(lists));
@@ -83,10 +85,26 @@ const Board = () => {
     toast.success("New list added!"); // Show success toast when a new list is added
   };
 
+  const addMember = () => {
+    if (newMemberName.trim() === "") return;
+    setLists(
+      lists.map((list) => ({
+        ...list,
+        cards: list.cards.map((card) => ({
+          ...card,
+          members: [...card.members, newMemberName],
+        })),
+      }))
+    );
+    setNewMemberName("");
+    setShowMemberInput(false); // Hide the input after adding the member
+    toast.success("New member added!"); // Show success toast when a new member is added
+  };
+
   return (
-    <Container className="mt-4">
+    <Container className="mt-4 board-container">
       <DragDropContext onDragEnd={onDragEnd}>
-        <Row className="board-container">
+        <Row>
           {lists.map((list) => (
             <Col key={list.id} md={3}>
               <List list={list} setLists={setLists} lists={lists} />
@@ -119,7 +137,7 @@ const Board = () => {
                 </div>
               ) : (
                 <Button
-                  variant="outline-light mt-3"
+                  variant="outline-light mt-3 mr-2"
                   onClick={() => setIsAddingList(true)}
                 >
                   + Add another list
@@ -129,6 +147,37 @@ const Board = () => {
           </Col>
         </Row>
       </DragDropContext>
+
+      {/* Add Member Section in Top Right */}
+      <div className="add-member-btn">
+        {!showMemberInput ? (
+          <Button
+            variant="outline-light mt-3"
+            onClick={() => setShowMemberInput(true)}
+          >
+            Add Member
+          </Button>
+        ) : (
+          <InputGroup className="member-input-group">
+            <Form.Control
+              type="text"
+              placeholder="Enter member name..."
+              value={newMemberName}
+              onChange={(e) => setNewMemberName(e.target.value)}
+            />
+            <Button variant="outline-success" onClick={addMember}>
+              Confirm
+            </Button>
+            <Button
+              variant="outline-danger ml-2"
+              onClick={() => setShowMemberInput(false)}
+            >
+              Cancel
+            </Button>
+          </InputGroup>
+        )}
+      </div>
+
       <ToastContainer // Toast container to display toasts
         position="bottom-right"
         autoClose={3000}

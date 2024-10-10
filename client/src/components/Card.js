@@ -23,6 +23,7 @@ const Card = ({ card, index, list, setLists, lists }) => {
   const [members, setMembers] = useState(card.members || []); // Manage members
   const [checklist, setChecklist] = useState(card.checklist || []); // Initialize checklist from card data
   const [newChecklistItem, setNewChecklistItem] = useState(""); // State for new checklist input
+  const [selectedRole, setSelectedRole] = useState("viewer"); // State for role selection
 
   const handleSave = () => {
     const updatedCard = {
@@ -31,6 +32,7 @@ const Card = ({ card, index, list, setLists, lists }) => {
       description: cardDescription,
       priority: priority,
       checklist: checklist, // Save checklist
+      role: selectedRole, // Save selected role
     };
     const updatedList = {
       ...list,
@@ -233,6 +235,19 @@ const Card = ({ card, index, list, setLists, lists }) => {
                   </Form.Select>
                 </Col>
               </Row>
+            </Form.Group>
+
+            {/* Role Section */}
+            <Form.Group controlId="role" className="mt-3">
+              <Form.Label>Assign Role</Form.Label>
+              <Form.Select
+                value={selectedRole}
+                onChange={(e) => setSelectedRole(e.target.value)}
+              >
+                <option value="admin">Admin</option>
+                <option value="member">Member</option>
+                <option value="viewer">Viewer</option>
+              </Form.Select>
             </Form.Group>
           </Form>
         </Modal.Body>

@@ -7,7 +7,7 @@ import "./styles/Header.css";
 const Header = () => {
   return (
     <Navbar bg="light" expand="lg" className="justify-content-between">
-      <Navbar.Brand href="/">ProjectLogo</Navbar.Brand>
+      <Navbar.Brand href="/">PlanMaster</Navbar.Brand>
       <Navbar.Toggle aria-controls="navbar-nav" />
       <Navbar.Collapse id="navbar-nav">
         <Nav className="ml-auto">
